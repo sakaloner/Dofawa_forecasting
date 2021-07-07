@@ -1,0 +1,13 @@
+{
+    "jupyter.jupyterServerType": "local",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "wer",
+            "database": "${workspaceFolder:dofawa}/dofawa.db",
+            "group": "sdf"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

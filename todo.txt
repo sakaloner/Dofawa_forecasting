@@ -1,0 +1,29 @@
+Ok bro so i make the pyautogui script to get pictures of all the objects
+the pictures must have all the things.
+1. try it in one category of objets first
+
+- guardar los 3 primeros objetos
+- scrollear una vez (se avanza 3 objetos)
+- ver si ya se llegò al final
+    - si no cambia el ultimo objeto es que se llego al final
+- repetir primer paso
+
+2. OpenCV lee las imagenes que descargue para ver el precio
+44 con el ...
+
+4. poner las cosas en el sql
+
+####### ya #############
+6. poner todas las funciones en el main.py
+
+4. Automatizar mas la toma de informacion
+- hacer que el escript abra el juego
+- hacer que el escript camine al otro mercadillo
+- hacer que el escript marque las casillas
+
+3. web scrapping de la wiki para poner los nombres bien de las cosas
+
+7. hacer que todo se ejecute a cierta hora del dia. y que me avise
+   si no se ejecuta. y que me avise cuando se vaya a ejecutar.
+
+8. Pensar como mostrar la informacion de forma grafica.
