@@ -9,5 +9,6 @@
             "group": "sdf"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "python.pythonPath": "C:\\Users\\Administrador\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
 }
