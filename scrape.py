@@ -1,10 +1,88 @@
-def scrape():
-    import pyautogui, time
-    from PIL import Image
-    import os
+import pyautogui, time, random
+from PIL import Image
+import os
+from icecream import ic
 
+def move_character():
     # failsafe
-    # stop after each call
+    pyautogui.FAILSAFE= True
+    #  stop after each call
+    pyautogui.Pause = 2.5
+
+    ## activate dofus windows
+    dw = pyautogui.getWindowsWithTitle('dofus')
+    dw[0].activate()
+
+    ## coordenadas para cambiar de area
+    wup = (600,30)
+    wdown =  (690,860)
+    wright = (1250, 400)
+    wleft = (20,500)
+    
+    ## espera entre comandos
+    tiempo_espera = 5
+    ################### moverse a los mercadillos lugares ###################
+    ## empieza en el de armas
+    ## recursos
+    cordenadas = [
+       #[(coordinate_store), steps]
+        [(645,470), [wleft, wleft, wleft, wup, wup]],   #recursos
+        [(237,395), [wup, wleft, wleft, wup]],          #runas
+        [(144,318), [wleft, wleft, wleft, wleft, wup]],  #animales
+        [(508,233), [wup, wright, wright, wright, wright, (805,404)]], #almas                                   
+        [(558,492), [(202,777), wup, wup, wup, wright, wright]],  #consumibles
+        [(240,368), [wright, wright, wdown, wdown, wdown, wdown, wdown, wdown, wdown]] #armas                                       
+    ]
+    inverses = {
+    wup: wdown,
+    wdown: wup,
+    wright: wleft,
+    wleft: wright
+    }
+    def invertir(direccion):
+        ic(direccion)
+        return inverses[direccion]
+    
+    def caminar(corde, alrevez=False):
+        if alrevez:
+            corde = corde[::-1]
+            for lugar in corde:
+                for step in lugar[1]:
+                    if step in inverses:
+                        ic(lugar)
+                        ic(step)
+                        step = list(map(invertir,step[::-1]))
+                        ic(step)
+                        pyautogui.click(step[0], step[1])
+                        time.sleep(tiempo_espera)
+                ## click en la tienda
+                pyautogui.click(lugar[0][0], lugar[0][1])
+        else:
+            for lugar in corde:
+                for step in lugar[1]:
+                    print()
+                    pyautogui.click(step[0], step[1])
+                    time.sleep(tiempo_espera)
+                ## click en la tienda
+                pyautogui.click(lugar[0][0], lugar[0][1])
+            
+    # Iniciar ruta aleatoriamente
+    rand = random.choice([True, False])
+    rand= True
+    print('rand=', rand)
+    caminar(cordenadas, rand)
+
+
+
+move_character()
+exit()
+
+def scrape():
+    # import pyautogui, time
+    # from PIL import Image
+    # import os
+
+    
     pyautogui.Pause = 2.5
 
     # get the dofus window

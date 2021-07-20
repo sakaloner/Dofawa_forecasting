@@ -1,8 +1,10 @@
-from database import *
-from reading_im import *
 from scrape import *
+from reading_im import *
+from databasear import *
 
 scrape()
-exit()
 reading_im()
-database()
+databasear()
+
+### erase objetos folders
+

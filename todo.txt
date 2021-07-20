@@ -27,3 +27,11 @@ the pictures must have all the things.
    si no se ejecuta. y que me avise cuando se vaya a ejecutar.
 
 8. Pensar como mostrar la informacion de forma grafica.
+
+
+9. coger el precio de las ogrinas comparado con las kamas tambien
+
+
+################ todo ###########
+- arreglar el error cuando el camino es en reversa
+- hacer que el men baje y seleccione todas las cosas

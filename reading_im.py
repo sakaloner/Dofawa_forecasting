@@ -1,9 +1,10 @@
+
 def reading_im():
     from PIL import Image
     import pytesseract, time, re, os, cv2, csv
     from icecream import ic
     import numpy as np
-    import datetime
+    import datetime, time
 
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -17,8 +18,7 @@ def reading_im():
             ("é", "e"),
             ("í", "i"),
             ("ó", "o"),
-            ("ú", "u"),
-        )
+            ("ú", "u"),)
         for a, b in replacements:
             s = s.replace(a, b).replace(a.upper(), b.upper())
         return s
@@ -30,8 +30,9 @@ def reading_im():
         return (normalize(x))
 
     # lista de archivos para enviar al for
-
-    lista = os.listdir('objetos')
+    fecha = time.gmtime()
+    nombre_carpeta = f'objetos-{fecha.tm_mday}_{fecha.tm_mon}_{fecha.tm_year}'
+    lista = os.listdir(f'{nombre_carpeta}')
     conta = 0
 
     # sortear los files
@@ -65,7 +66,7 @@ def reading_im():
             # pal csv
             lista_csv = []
             # abrir la imagen con cv2
-            img = cv2.imread(f"objetos\{file}")
+            img = cv2.imread(f"{nombre_carpeta}\{file}")
             # cambiarla a blanco y negro
             ima = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             # volverlo un acrhivo de PIL

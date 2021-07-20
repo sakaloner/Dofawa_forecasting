@@ -1,4 +1,5 @@
-objetos/.gitnore
+objetos*/
+.gitignore
 objetos/1.png
 objetos/2.png
 objetos/3.png
