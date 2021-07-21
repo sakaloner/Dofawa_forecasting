@@ -80,7 +80,7 @@ def move_character():
                 # click tienda
                 #pyautogui.click(lugar[0][0], lugar[0][1])
                 # Funcion para marcar las casillas de objetos
-                
+
                 # cerrar tienda
                 pyautogui.click(1208,80)
         else:
@@ -128,7 +128,7 @@ def scrape():
         dos = todo.crop((0,43,550,86.5))
         tres = todo.crop((0,86.5,550,130))
 
-        # crear primer carpeta con el año
+        # crear primer carpeta con la fecha
         fecha = time.gmtime()
         nombre_carpeta = f'objetos-{fecha.tm_mday}_{fecha.tm_mon}_{fecha.tm_year}'
         os.makedirs(nombre_carpeta, exist_ok=True)
