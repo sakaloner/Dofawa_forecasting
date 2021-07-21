@@ -20,7 +20,7 @@ def move_character():
     wleft = (20,500)
     
     ## espera entre comandos
-    tiempo_espera = 5
+    tiempo_espera = 8
     ################### moverse a los mercadillos lugares ###################
     ## empieza en el de armas
     ## recursos
@@ -31,44 +31,71 @@ def move_character():
         [(144,318), [wleft, wleft, wleft, wleft, wup]],  #animales
         [(508,233), [wup, wright, wright, wright, wright, (805,404)]], #almas                                   
         [(558,492), [(202,777), wup, wup, wup, wright, wright]],  #consumibles
-        [(240,368), [wright, wright, wdown, wdown, wdown, wdown, wdown, wdown, wdown]] #armas                                       
+        [(240,368), [wdown,wdown,wdown, wdown, wdown, wright, wright,wdown,wdown,wdown,wdown,wright]] #armas                                       
+    ]
+    coordenadas_tiendas = [
+        (240,368), # armas
+        (645,470), # recurso
+        (237,395),
+        (144,318),
+        (508,233),
+        (558,492),
+        (240,368)
     ]
     inverses = {
     wup: wdown,
     wdown: wup,
     wright: wleft,
-    wleft: wright
+    wleft: wright,
+    (202,777): (805,404), # coliseo/almas
+    (805,404): (202,777)  # coliseo/almas
     }
     def invertir(direccion):
-        ic(direccion)
-        return inverses[direccion]
+        if direccion in inverses:
+            return inverses[direccion]
+        else:
+            return direccion
+    
     
     def caminar(corde, alrevez=False):
+        contador = 0
         if alrevez:
             corde = corde[::-1]
             for lugar in corde:
-                for step in lugar[1]:
-                    if step in inverses:
-                        ic(lugar)
-                        ic(step)
-                        step = list(map(invertir,step[::-1]))
-                        ic(step)
-                        pyautogui.click(step[0], step[1])
-                        time.sleep(tiempo_espera)
+                camino_revez = list(map(invertir ,lugar[1][::-1]))
+                ic(camino_revez)
+                for step in camino_revez:
+                    ic(step)
+                    pyautogui.click(step[0], step[1])
+                    print('click')
+                    contador += 1
+                    ic(contador)
+                    time.sleep(tiempo_espera)
+
                 ## click en la tienda
-                pyautogui.click(lugar[0][0], lugar[0][1])
+                contador = 0
+                lugar_tienda = lugar[0]
+                ic(lugar_tienda)
+                print('click tienda')
+                # click tienda
+                #pyautogui.click(lugar[0][0], lugar[0][1])
+                # Funcion para marcar las casillas de objetos
+                
+                # cerrar tienda
+                pyautogui.click(1208,80)
         else:
             for lugar in corde:
                 for step in lugar[1]:
                     print()
                     pyautogui.click(step[0], step[1])
+                    contador += 1
                     time.sleep(tiempo_espera)
                 ## click en la tienda
-                pyautogui.click(lugar[0][0], lugar[0][1])
+                contador = 0
+                #pyautogui.click(lugar[0][0], lugar[0][1])
             
     # Iniciar ruta aleatoriamente
     rand = random.choice([True, False])
-    rand= True
     print('rand=', rand)
     caminar(cordenadas, rand)
 
