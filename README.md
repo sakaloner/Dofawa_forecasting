@@ -1,4 +1,4 @@
-# Dofawa: Predicciones en un mercado de un videojuego multijudador masivo
+# Dofawa: Predicciones en un mercado de un videojuego multijugador masivo
 
 En este proyecto aun no terminado se intenta predecir los objetos de un mercado del MMO Dofus.
 ## Completado:
