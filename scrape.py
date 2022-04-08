@@ -2,6 +2,9 @@ import pyautogui, time, random
 from PIL import Image
 import os
 from icecream import ic
+from marcar_categorias import marcar_casillas
+from ss_items import get_items
+
 
 def move_character():
     # failsafe
@@ -14,42 +17,56 @@ def move_character():
     dw[0].activate()
 
     ## coordenadas para cambiar de area
-    wup = (600,30)
-    wdown =  (690,860)
-    wright = (1250, 400)
-    wleft = (20,500)
+    wu = (600,30) # walk up
+    wd =  (690,860) # walk down
+    wr = (1250, 400) # walk righ
+    wl = (20,500)   # walk left
     
     ## espera entre comandos
-    tiempo_espera = 8
+    tiempo_espera = 9
+
     ################### moverse a los mercadillos lugares ###################
-    ## empieza en el de armas
-    ## recursos
-    cordenadas = [
-       #[(coordinate_store), steps]
-        [(645,470), [wleft, wleft, wleft, wup, wup]],   #recursos
-        [(237,395), [wup, wleft, wleft, wup]],          #runas
-        [(144,318), [wleft, wleft, wleft, wleft, wup]],  #animales
-        [(508,233), [wup, wright, wright, wright, wright, (805,404)]], #almas                                   
-        [(558,492), [(202,777), wup, wup, wup, wright, wright]],  #consumibles
-        [(240,368), [wdown,wdown,wdown, wdown, wdown, wright, wright,wdown,wdown,wdown,wdown,wright]] #armas                                       
-    ]
-    coordenadas_tiendas = [
-        (240,368), # armas
-        (645,470), # recurso
-        (237,395),
-        (144,318),
-        (508,233),
-        (558,492),
-        (240,368)
-    ]
-    inverses = {
-    wup: wdown,
-    wdown: wup,
-    wright: wleft,
-    wleft: wright,
-    (202,777): (805,404), # coliseo/almas
-    (805,404): (202,777)  # coliseo/almas
+    ## cordenadas para hacer click en tiendas y entradas de estas
+    coor_click = {
+        # coordenadas en pixeles pantalla de las tiendas
+        'equipables':(302,350),
+        'consumibles':(807,509),
+        'recursos':(1140,424),
+        'runas':(1122,559),
+        'animales':(944,625),
+        'almas':(472,129),
+        'almas_ent':(731,372),
+        'almas_sal':(255,638),
+        'cosmeticos':(788,156),
+        'cosme_ent':(925,269),
+        'cosme_sal':(229,763)
     }
+    
+    ## empieza en el mercadillo de equipables
+    ## 7 lugares de tiendas
+    ## puede ir en direccion reversa o no
+    cordenadas = [
+       #[(coor_tiendas['nombre tienda']), steps]
+        [coor_click['equipables'], [wd, wd]],
+        [coor_click['consumibles'], [wu,wr]],
+        [coor_click['recursos'], [wl,wu,wr,wr,wu,wu]],
+        [coor_click['runas'], [wu,wu,wl]],
+        [coor_click['animales'], [wd,wl,wl,wu,coor_click['almas_ent']]],
+        [coor_click['almas'], [coor_click['almas_sal'],wu,wl,wl,wl,coor_click['cosme_ent']]],
+        [coor_click['cosmeticos'], [coor_click['cosme_sal'],wr,wr,wd,wd,wr,wd,wd,wr,wd]],              
+    ]
+    
+    inverses = {
+    wu: wd,
+    wd: wu,
+    wr: wl,
+    wl: wr,
+    coor_click['almas_ent']:coor_click['almas_sal'],
+    coor_click['almas_sal']:coor_click['almas_ent'],
+    coor_click['cosme_ent']:coor_click['cosme_sal'],
+    coor_click['cosme_sal']:coor_click['cosme_ent']
+    }
+    
     def invertir(direccion):
         if direccion in inverses:
             return inverses[direccion]
@@ -59,11 +76,28 @@ def move_character():
     
     def caminar(corde, alrevez=False):
         contador = 0
+        ic(corde)
         if alrevez:
+            #ic(corde[0])
             corde = corde[::-1]
+            ## little fix to get up stairs (wup doesnt work there but wdown does from the other side)
+            #print('tiendas',[x[0] for x in corde)
+            
             for lugar in corde:
+                ic(lugar)
+                print('No hay reverso aun')
+                exit()
+                ## abrir tienda
+                #pyautogui.click(lugar[0])
+                ## wait until the interface loads
+                #time.sleep(5)
+                ### falta funcion para marcar casillas ###
+                # cerrar tienda
+                #pyautogui.click(1208,80)
+                #time.sleep(3)
+
+                ### invertir lista de caminar y caminar
                 camino_revez = list(map(invertir ,lugar[1][::-1]))
-                ic(camino_revez)
                 for step in camino_revez:
                     ic(step)
                     pyautogui.click(step[0], step[1])
@@ -84,78 +118,43 @@ def move_character():
                 # cerrar tienda
                 pyautogui.click(1208,80)
         else:
-            for lugar in corde:
-                for step in lugar[1]:
-                    print()
-                    pyautogui.click(step[0], step[1])
+            for lugar in corde[:]:
+                ## click en la tienda
+                pyautogui.click(lugar[0])
+                ## wait until the interface loads
+                time.sleep(3)
+                ### marcar casillas importada
+                marcar_casillas(lugar[0])
+                time.sleep(2)
+                ### falta funcion para marcar scrapear ###
+                get_items()
+                time.sleep(2)
+                # cerrar tienda
+                pyautogui.click(1208,80)
+                time.sleep(3)
+                ## mover personaje
+                for h, step in enumerate(lugar[1]):
+                    print('step mini -- ', h+1)
+                    ic(step)
+                    pyautogui.click(step)
                     contador += 1
                     time.sleep(tiempo_espera)
                 ## click en la tienda
                 contador = 0
+                print(contador)
                 #pyautogui.click(lugar[0][0], lugar[0][1])
             
     # Iniciar ruta aleatoriamente
-    rand = random.choice([True, False])
-    print('rand=', rand)
-    caminar(cordenadas, rand)
+    #inver = random.choice([True, False])
+    sentido_invertido = False # provisional
+    ic(sentido_invertido)
+    caminar(cordenadas, sentido_invertido)
+
+
+try:
+    move_character()
+except pyautogui.FailSafeException:
+    pyautogui.alert(text='Fail Safed', title='Fail Safe', button='OK')
 
 
 
-move_character()
-exit()
-
-def scrape():
-    # import pyautogui, time
-    # from PIL import Image
-    # import os
-
-    
-    pyautogui.Pause = 2.5
-
-    # get the dofus window
-    dw = pyautogui.getWindowsWithTitle('dofus')
-    dw[0].activate()
-
-    # dummy values
-    count = 0 
-
-    while True:
-        ### first pass ###
-        # take the screenshots
-        todo = pyautogui.screenshot(region=(320, 195, 550, 130))
-        # individual crops
-        uno = todo.crop((0,0,550,43))
-        dos = todo.crop((0,43,550,86.5))
-        tres = todo.crop((0,86.5,550,130))
-
-        # crear primer carpeta con la fecha
-        fecha = time.gmtime()
-        nombre_carpeta = f'objetos-{fecha.tm_mday}_{fecha.tm_mon}_{fecha.tm_year}'
-        os.makedirs(nombre_carpeta, exist_ok=True)
-        # guardar
-        uno.save(f'{nombre_carpeta}/{count+1}.png')
-        dos.save(f'{nombre_carpeta}/{count+2}.png')
-        tres.save(f'{nombre_carpeta}/{count+3}.png')
-
-        
-        # ss of last obj in list to see if it can be scrolled more or if it is the end
-        last_obj = pyautogui.screenshot(region=(320, 757, 550, 43.3))
-        # scrolling
-        pyautogui.moveTo(516,615)
-        # -120 es el scroll minimo (mueve 3 objetos)
-        pyautogui.scroll(-120)
-        end_check = pyautogui.screenshot(region=(320, 757, 550, 43.3))
-        # updatar cuenta
-        count += 3
-        # BREAK if it gets to the end
-        if end_check == last_obj:
-            break
-        #end_check.show()
-
-    ## cuando llega a la ventana final
-    todo_final = pyautogui.screenshot(region=(320, 325, 550, 473))
-    for i in range(11):
-        todo_final.crop((0,(i*43),550,(43+(i*43)))).save(f'{nombre_carpeta}/{count+1+i}.png')
-
-    pyautogui.alert('done')
-scrape()

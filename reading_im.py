@@ -5,8 +5,9 @@ def reading_im():
     from icecream import ic
     import numpy as np
     import datetime, time
+    pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    #pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
     #2. OpenCV lee las imagenes que descargue para ver el precio
 
