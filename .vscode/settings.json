@@ -7,6 +7,12 @@
             "name": "wer",
             "database": "${workspaceFolder:dofawa}/dofawa.db",
             "group": "sdf"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Dofus",
+            "database": "${workspaceFolder:dofawa}/dofawa.db"
         }
     ],
     "sqltools.useNodeRuntime": true,

@@ -1,5 +1,6 @@
 
 def reading_im():
+    import shutil
     from PIL import Image
     import pytesseract, time, re, os, cv2, csv
     from icecream import ic

@@ -151,10 +151,6 @@ def move_character():
     caminar(cordenadas, sentido_invertido)
 
 
-try:
-    move_character()
-except pyautogui.FailSafeException:
-    pyautogui.alert(text='Fail Safed', title='Fail Safe', button='OK')
 
 
 
