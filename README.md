@@ -1,9 +1,6 @@
-# Dofawa: Predicciones en un mercado de un videojuego multijugador masivo
+# Dofawa forecasting
 
-En este proyecto aun no terminado se intenta predecir los objetos de un mercado del MMO Dofus.
-## Completado:
-- Se usan tecnicas de OCR y automatizacion de GUI para la obtencion de los datos.
-- Se usa sqlite para organizacion de los items en bases de datos
-### Por hacer:
-- Analisar el mercado de recursos del vieojuego
-- Crear modelos de machine learning para predecir el precio de los objetos
+In this proyect I scrape data from a MMO game using an in game bot to get data 
+and optical character recoginition.
+The information is saved in an sql database and a jupyter file is served for
+exploration and analysis of the datasets
